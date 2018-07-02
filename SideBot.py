@@ -352,8 +352,8 @@ async def Save_ListeCouleur (ListeCouleur):
 
 
 async def autodestruct(msgBot,msgUser,user):
-	await bot.add_reaction(msgBot,"👌")
-	await bot.wait_for_reaction("👌", message=msgBot, user=user ,timeout=40)
+	await bot.add_reaction(msgBot,"❌")
+	await bot.wait_for_reaction("❌", message=msgBot, user=user ,timeout=40)
 	await bot.delete_message(msgBot)
 	await bot.delete_message(msgUser)
 
