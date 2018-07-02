@@ -27,15 +27,52 @@ async def on_ready():
 
 	
 @bot.command(pass_context=True)
-async def commandes():
-	embed = discord.Embed(title="Commandes de SideBot", color=0x800000)
-	embed.add_field(name="nani", value="NANI????", inline=False)
-	embed.add_field(name="ping", value="dit pong", inline=False)
-	embed.add_field(name="rem", value="Envoie une image de la meilleure waifu", inline=False)
-	embed.add_field(name="avatar", value="Donne l'avatar d'un utilisateur", inline=False)
-	embed.add_field(name="infos", value="Donne des informations sur un utilisateur", inline=False)
-	msg = await bot.say(embed=embed)
-	await autodestruct(msg,ctx.message,ctx.message.author)
+async def commandes(ctx):
+	page:int = 1
+	nbrPages:int = 3
+
+	embed1 = discord.Embed(title="Commandes de SideBot", color=0x33FFF6)
+	embed1.add_field(name="nani", value="NANI????", inline=False)
+	embed1.add_field(name="ping", value="dit pong", inline=False)
+	embed1.add_field(name="rem", value="Envoie une image de la meilleure waifu", inline=False)
+	embed1.add_field(name="avatar", value="Donne l'avatar d'un utilisateur", inline=False)
+	embed1.add_field(name="infos", value="Donne des informations sur un utilisateur", inline=False)
+
+
+	msg = await bot.say(embed=embed1)
+
+	await bot.add_reaction(msg,"⏪")
+	await bot.add_reaction(msg,"◀")
+	await bot.add_reaction(msg,"▶")
+	await bot.add_reaction(msg,"⏩")
+	await bot.add_reaction(msg,"❌")
+
+	reac_msg = await bot.wait_for_reaction(['⏪', '◀','▶','⏩','❌'],user=ctx.message.author, message=msg)
+
+	if (reac_msg.reaction.emoji == '⏪') :
+		page = 1
+		print("page = ",page)
+
+	if (reac_msg.reaction.emoji == '◀') :
+		if(page > 1) :
+			page = page-1
+			print("page = ",page)
+
+	if (reac_msg.reaction.emoji == '▶') :
+		if (page < nbrPages) :
+			page = page+1
+			print("page = ",page)
+
+	if (reac_msg.reaction.emoji == '⏩') :
+		page = nbrPages
+		print("page = ",page)
+
+	if (reac_msg.reaction.emoji == '❌') :
+		await bot.delete_message(msg)
+		await bot.delete_message(ctx.message)
+
+
+
 
 @bot.command(pass_context=True)
 async def ping(ctx):
@@ -134,60 +171,6 @@ async def vote(ctx, vote_type:int=None ,Vote_Message=None, emoji1 = "👍", emoj
 		msg = await bot.say("Vous n'avez pas la permission d'utiliser cette commande")
 		await autodestruct(msg,ctx.message,ctx.message.author)
 
-
-
-
-
-
-"""
-@bot.command(pass_context=True)
-async def couleur(ctx, arg1, arg2=None):
-	Arg1=str(arg1)
-	if(Arg1.lower()=="reset"):
-		roles = ctx.message.author.roles
-		print(roles)
-		print(len(roles))
-		for i in range(0,len(roles)):
-			nomRoles = roles[i].name
-			print("nom role = ", nomRoles)
-			if (nomRoles in Couleurs):
-				nomRolesId = discord.utils.get(ctx.message.server.roles, name=nomRoles)
-				await bot.remove_roles(ctx.message.author, nomRolesId)
-				print(nomRoles,"enlevé")
-			i += 1
-			print(i)
-			time.sleep(0.5)
-		msg = await bot.say("Votre couleur a bien été enlevée, si ce n'est pas le cas contacter un adminitrateur pour qu'il vous le fasse manuellement")
-		await autodestruct(msg,ctx.message,ctx.message.author)
-	elif(Arg1.lower()=="help"):
-		CoulEmb = discord.Embed(title="La commande !couleur vous permet de changer la couleur de votre pseudo sur le serveur", color=0x0a00ff)
-		CoulEmb.set_author(name="Guide de la commande !couleur")
-		CoulEmb.add_field(name="Pour ajouter une couleur faites :", value="```!couleur + nomDeLaCouleur```", inline=False)
-		CoulEmb.add_field(name="Pour enlever une couleur faites :", value="```!couleur - nomDeLaCouleur```", inline=False)
-		CoulEmb.add_field(name="Pour réinisialliser vos couleurs faites :", value="```!couleur reset```", inline=False)
-		CoulEmb.add_field(name="Voici les couleurs disponibles :", value=Couleurs, inline=False )
-		msg = await bot.say(embed=CoulEmb)
-		await autodestruct(msg,ctx.message,ctx.message.author)
-	elif(Arg1=="+"):
-		Couleur=str(arg2)
-		if(Couleur in Couleur):
-			role = discord.utils.get(ctx.message.server.roles, name=Couleur.lower())
-			await bot.add_roles(ctx.message.author, role)
-		else:
-			msg = await bot.say("La couleur que vous voulez n'éxiste pas, pour voir les couleurs disponibles faites ```!couleur help```")
-			await autodestruct(msg,ctx.message,ctx.message.author)
-	elif(Arg1=="-"):
-		Couleur=str(arg2)
-		if(Couleur in Couleur):
-			role = discord.utils.get(ctx.message.server.roles, name=Couleur.lower())
-			await bot.remove_roles(ctx.message.author, role)
-		else:
-			msg = await bot.say("La couleur que vous voulez n'éxiste pas, pour voir les couleurs disponibles faites ```!couleur help```")
-			await autodestruct(msg,ctx.message,ctx.message.author)
-	else:
-		msg = await bot.say("Vous vous etes trompé dans la commande, pour voir comment s'en servir faites : ```!couleur help```")
-		await autodestruct(msg,ctx.message,ctx.message.author)
-"""		
 
 
 @bot.command(pass_context=True)
@@ -385,5 +368,6 @@ async def autodestruct(msgBot,msgUser,user):
 	await bot.delete_message(msgBot)
 	await bot.delete_message(msgUser)
 
-bot.run(os.environ.get('BOT_TOKEN'))
+#bot.run(os.environ.get('BOT_TOKEN'))
+bot.run("NDE2MzIxMzI0ODczNjc4ODU4.DcSLiA.qv-cArwLcaiPAEW-m613PHT4qx0")
 
