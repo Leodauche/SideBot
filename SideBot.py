@@ -23,8 +23,11 @@ bot.remove_command('help')
 async def on_ready():
 	print ("SideBot pret")
 	await bot.change_presence(game=discord.Game(name='!commandes'))
-	#print (ListeCouleur)
 
+
+@bot.check
+async def botcheck(ctx):
+    return not ctx.message.author.bot
 	
 @bot.command(pass_context=True)
 async def commandes(ctx):
@@ -183,18 +186,10 @@ async def loveRem(ctx):
 
 @bot.command(pass_context=True)
 async def emoji(ctx, emoji: discord.Emoji):
-	#embed = discord.Embed(title = ":{}:".format(emoji.name),color=0x4286f4)
 	embed = discord.Embed(color=0x4286f4)
 	embed.set_image(url=emoji.url)
 	await bot.say(embed=embed)
 
-"""
-@bot.command(pass_context=True)
-async def RemoveRole(ctx,role):
-	role = discord.utils.get(ctx.message.server.roles, name=role)
-	await bot.remove_roles(ctx.message.author, role)
-	
-"""
 @bot.command(pass_context=True)
 async def avatar(ctx, user: discord.Member):
 	embed = discord.Embed(title="Avatar de {}".format(user.name), color=0xff0000)
@@ -348,13 +343,7 @@ async def infos(ctx, user: discord.Member):
     embed.add_field(name="arrivé(e) le", value=user.joined_at)
     embed.set_thumbnail(url=user.avatar_url)
     await bot.say(embed=embed)
-"""
-@bot.command(pass_context=True)
-async def test2(ctx,nomRole,couleur):
-	await bot.create_role(server = ctx.message.server, name=nomRole,colour=discord.Colour(int(couleur, 16)))
-	msg = await bot.say("le role {} a bien été créé".format(nomRole))
-	await autodestruct(msg,ctx.message,ctx.message.author)
-"""
+
 async def Save_ListeCouleur (ListeCouleur):
 	f = open('Couleurs.pckl', 'wb')
 	pickle.dump(ListeCouleur, f)
@@ -369,5 +358,4 @@ async def autodestruct(msgBot,msgUser,user):
 	await bot.delete_message(msgUser)
 
 bot.run(os.environ.get('BOT_TOKEN'))
-
 
