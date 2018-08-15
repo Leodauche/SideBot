@@ -2,7 +2,7 @@
 from PIL import Image, ImageDraw, ImageFont
 import discord
 import random
-import requests
+import aiohttp
 import time
 import os
 import asyncio
@@ -16,7 +16,6 @@ import Couleurs
 
 
 bot = commands.Bot(command_prefix='!')
-emojis = bot.get_all_emojis()
 bot.remove_command('help')
 
 @bot.event
@@ -24,10 +23,6 @@ async def on_ready():
 	print ("SideBot pret")
 	await bot.change_presence(game=discord.Game(name='!commandes'))
 
-
-@bot.check
-async def botcheck(ctx):
-    return not ctx.message.author.bot
 	
 @bot.command(pass_context=True)
 async def commandes(ctx):
@@ -107,7 +102,38 @@ async def delete(ctx, nombre):
 		msg = await bot.say("Vous ne pouvez pas utiliser cette commande")
 		await autodestruct(msg,ctx.message,ctx.message.author)
 
+@bot.command(pass_context=True)
+async def lewd(ctx):
+	await bot.delete_message(ctx.message)
+	nsfw = discord.utils.get(ctx.message.server.channels , id="420994817804206080")
+	if (ctx.message.channel == nsfw) :
+		async with aiohttp.ClientSession() as session:
+			async with session.get('https://nekos.life/api/v2/img/hentai') as r: 
+				if r.status == 200 :
+					js = await r.json()
+					await bot.send_message(ctx.message.channel, js['url'])
+	else : 
+		await bot.say("Vous ne pouvez pas utiliser cette commande dans ce channel")
 
+
+@bot.command(pass_context=True)
+async def Safeb(ctx,limit,*,tags):
+	if int(limit) >= 5 :
+		await bot.say("calmos amigos")
+	else :
+		tags_joined = tags.replace(" ","+")
+		async with aiohttp.ClientSession() as session:
+			async with session.get('https://safebooru.org//index.php?page=dapi&tags={}&s=post&limit={}&q=index&json=1'.format(tags_joined,limit)) as r: 
+				js = await r.json(content_type='text/html')
+				for i in range(len(js)):
+					arr = js[i]
+					await bot.say("https://safebooru.org//images/{}/{}".format(arr['directory'],arr['image']))
+
+@bot.command(pass_context=True)
+async def batman(ctx):
+	fp = "Donnes/Img/Batman/{}".format(random.choice(os.listdir("Donnes/Img/Batman")))
+	await bot.send_file(ctx.message.channel, fp )
+	await bot.delete_message(ctx.message)
 
 @bot.command(pass_context=True)
 async def nani():
@@ -121,7 +147,7 @@ async def pat():
 	embed = discord.Embed(color=0xFFC5DF)
 	embed.set_image(url="https://cdn.nekos.life/pat/{}.gif".format(random.choice(Pat)))
 	await bot.say(embed=embed)
-	await bot.delete_message(ctx.messager)
+	await bot.delete_message(ctx.message)
 	
 @bot.command(pass_context=True)
 async def hug():
@@ -331,7 +357,21 @@ async def RemoveColor(ctx,Position):
 			await bot.say("aaaadzdqsd")
 
 
+@bot.command(pass_context=True)
+async def chat(ctx):
+	async with aiohttp.ClientSession() as session:
+		async with session.get('http://aws.random.cat/meow') as r: 
+			if r.status == 200 :
+				js = await r.json()
+				await bot.send_message(ctx.message.channel, js['file'])
 
+@bot.command(pass_context=True)
+async def neko(ctx):
+	async with aiohttp.ClientSession() as session:
+		async with session.get('https://nekos.life/api/v2/img/neko') as r: 
+			if r.status == 200 :
+				js = await r.json()
+				await bot.send_message(ctx.message.channel, js['url'])
 
 @bot.command(pass_context=True)
 async def infos(ctx, user: discord.Member):
@@ -357,5 +397,5 @@ async def autodestruct(msgBot,msgUser,user):
 	await bot.delete_message(msgBot)
 	await bot.delete_message(msgUser)
 
-bot.run(os.environ.get('BOT_TOKEN'))
-
+#bot.run(os.environ.get('BOT_TOKEN'))
+bot.run("NDE2MzIxMzI0ODczNjc4ODU4.DcSLiA.qv-cArwLcaiPAEW-m613PHT4qx0")
