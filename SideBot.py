@@ -102,19 +102,6 @@ async def delete(ctx, nombre):
 		msg = await bot.say("Vous ne pouvez pas utiliser cette commande")
 		await autodestruct(msg,ctx.message,ctx.message.author)
 
-@bot.command(pass_context=True)
-async def lewd(ctx):
-	await bot.delete_message(ctx.message)
-	nsfw = discord.utils.get(ctx.message.server.channels , id="420994817804206080")
-	if (ctx.message.channel == nsfw) :
-		async with aiohttp.ClientSession() as session:
-			async with session.get('https://nekos.life/api/v2/img/hentai') as r: 
-				if r.status == 200 :
-					js = await r.json()
-					await bot.send_message(ctx.message.channel, js['url'])
-	else : 
-		await bot.say("Vous ne pouvez pas utiliser cette commande dans ce channel")
-
 
 @bot.command(pass_context=True)
 async def Safeb(ctx,limit,*,tags):
