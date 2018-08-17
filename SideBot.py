@@ -23,29 +23,18 @@ async def on_ready():
 	print ("SideBot pret")
 	await bot.change_presence(game=discord.Game(name='!commandes'))
 
-	
-@bot.command(pass_context=True)
-async def commandes(ctx):
-	page:int = 1
-	nbrPages:int = 3
-
-	embed1 = discord.Embed(title="Commandes de SideBot", color=0x33FFF6)
-	embed1.add_field(name="nani", value="NANI????", inline=False)
-	embed1.add_field(name="ping", value="dit pong", inline=False)
-	embed1.add_field(name="rem", value="Envoie une image de la meilleure waifu", inline=False)
-	embed1.add_field(name="avatar", value="Donne l'avatar d'un utilisateur", inline=False)
-	embed1.add_field(name="infos", value="Donne des informations sur un utilisateur", inline=False)
 
 
-	msg = await bot.say(embed=embed1)
 
-	await bot.add_reaction(msg,"⏪")
-	await bot.add_reaction(msg,"◀")
-	await bot.add_reaction(msg,"▶")
-	await bot.add_reaction(msg,"⏩")
-	await bot.add_reaction(msg,"❌")
 
-	reac_msg = await bot.wait_for_reaction(['⏪', '◀','▶','⏩','❌'],user=ctx.message.author, message=msg)
+
+
+
+
+
+
+async def comReac(ctx,user,msg,page,nbrPages):
+	reac_msg = await bot.wait_for_reaction(['⏪', '◀','▶','⏩','❌'],user=user, message=msg)
 
 	if (reac_msg.reaction.emoji == '⏪') :
 		page = 1
@@ -66,8 +55,78 @@ async def commandes(ctx):
 		print("page = ",page)
 
 	if (reac_msg.reaction.emoji == '❌') :
+		page = 0
 		await bot.delete_message(msg)
 		await bot.delete_message(ctx.message)
+
+	return int(page)
+
+
+
+
+
+
+	
+@bot.command(pass_context=True)
+async def commandes(ctx):
+	page:int = 1
+	nbrPages:int = 3
+
+	embed1=discord.Embed(title="Commandes d'images :", description="---------------------------------------------------------", color=0x55aafe)
+	embed1.set_author(name="Commandes de SideBot")
+	embed1.set_thumbnail(url=bot.user.avatar_url)
+	embed1.add_field(name="safeb", value="Permet d'envoyer x images avec y tag depuis safebooru, c'écrit sous la forme `!safeb x y`", inline=True)
+	embed1.add_field(name="rem", value="Envoie une image de Rem", inline=False)
+	embed1.add_field(name="batman", value="Envoie une image de Batman", inline=False)
+	embed1.add_field(name="kiss", value="Envoie un baiser", inline=False)
+	embed1.add_field(name="hug", value="Envoie un câlin", inline=False)
+	embed1.add_field(name="pat", value="Envoie une caresse", inline=False)
+	embed1.add_field(name="nani", value="NANI", inline=False)
+	embed1.add_field(name="chat", value="Envoie un chat :3", inline=False)
+	embed1.add_field(name="neko", value="Envoie une neko :3", inline=False)
+	embed1.set_footer(text="bot pas codé par Kinji, page {} / {}".format(page,nbrPages))
+
+
+	embed2=discord.Embed(title="Commandes d'images :", description="---------------------------------------------------------", color=0x55aafe)
+	embed2.set_author(name="Commandes de SideBot")
+	embed2.set_thumbnail(url=bot.user.avatar_url)
+	embed2.set_footer(text="bot pas codé par Kinji, page {} / {}".format(page,nbrPages))
+
+
+
+	embed3=discord.Embed(title="Commandes d'images :", description="---------------------------------------------------------", color=0x55aafe)
+	embed3.set_author(name="Commandes de SideBot")
+	embed3.set_thumbnail(url=bot.user.avatar_url)
+	embed3.set_footer(text="bot pas codé par Kinji, page {} / {}".format(page,nbrPages))
+
+
+	msg = await bot.say(embed=embed1)
+
+	await bot.add_reaction(msg,"⏪")
+	await bot.add_reaction(msg,"◀")
+	await bot.add_reaction(msg,"▶")
+	await bot.add_reaction(msg,"⏩")
+	await bot.add_reaction(msg,"❌")
+
+	while True :
+
+		page = await comReac(ctx,ctx.message.author,msg,page,nbrPages)
+
+		if page == 0 :
+			break 
+	
+		if page == 1 :
+			await bot.edit_message(msg,embed=embed1)
+
+		if page == 2 :
+			await bot.edit_message(msg,embed=embed2)
+
+		if page == 3 :
+			await bot.edit_message(msg,embed=embed3)
+
+
+
+
 
 
 
@@ -104,7 +163,7 @@ async def delete(ctx, nombre):
 
 
 @bot.command(pass_context=True)
-async def Safeb(ctx,limit,*,tags):
+async def safeb(ctx,limit,*,tags):
 	if int(limit) >= 5 :
 		await bot.say("calmos amigos")
 	else :
