@@ -11,7 +11,7 @@ from discord.ext import commands
 from discord.ext.commands import Bot
 from Var import Hug , Pat ,Nani
 from Couleurs import afficherCouleur , ListeCouleur
-from ImgEdit import img_txt
+from ImgEdit import img_txt, Img_list
 import Couleurs
 
 
@@ -145,10 +145,25 @@ async def wait(ctx,nombre):
 
 
 @bot.command(pass_context=True)
-async def test(ctx, Texte):
-	pathfile = img_txt(Texte)
-	await bot.send_file(ctx.message.channel,pathfile)
-	os.remove(pathfile)
+async def write(ctx,arg,*, Texte=None):
+	if arg == "help" :
+		await bot.say("aled")
+	elif arg == "r" :
+		pathfile = img_txt(arg,Texte)
+		await bot.send_file(ctx.message.channel,pathfile)
+		os.remove(pathfile)
+	else : 
+		try : 
+			int(arg)
+		except ValueError:
+			await bot.say("erreur dans la commande")
+	if int(arg) > 0 and int(arg) < len(Img_list)+1 :
+		pathfile = img_txt(arg,Texte)
+		await bot.send_file(ctx.message.channel,pathfile)
+		os.remove(pathfile)
+	else:
+		await bot.say("nombre trop grand ou trop petit")
+
 
 
 @bot.command(pass_context=True)
@@ -311,7 +326,9 @@ async def creerRoles(ctx):
 async def affCoul(ctx):
 	admin = discord.utils.get(ctx.message.server.roles, id='416319027191873538')
 	if ctx.message.author.top_role == admin :
-		await bot.send_file(ctx.message.channel,afficherCouleur())
+		pathfile = afficherCouleur()
+		await bot.send_file(ctx.message.channel,pathfile)
+		os.remove(pathfile)
 	else :
 		msg = await bot.say("Vous ne pouvez pas utiliser cette commande")
 		await autodestruct(msg,ctx.message,ctx.message.author)
@@ -343,32 +360,32 @@ async def Couleur(ctx,Couleur):
 	for i in range (len(Roles_User)) :
 		Noms_Roles_User.append(Roles_User[i].name)
 	Roles_User_Couleur = list(set(Noms_Roles_User).intersection(CoulDispo))
-	print("Roles_User_Couleur = ", Roles_User_Couleur)
+	#print("Roles_User_Couleur = ", Roles_User_Couleur)
 
 	if Roles_User_Couleur == [] :
 		if str(Couleur) in CoulDispo :
 			role = discord.utils.get(ctx.message.server.roles, name=Couleur)
 			await bot.add_roles(ctx.message.author, role)
 		else :
-			print("la couleur n'existe pas")
+			#print("la couleur n'existe pas")
 
 	else :
 		if str(Couleur) in CoulDispo :
 			if str(Couleur) in Roles_User_Couleur :
-				print("vous avez deja cette couleur")
-				print("Supprimer tt les autres couleurs")
+				#print("vous avez deja cette couleur")
+				#print("Supprimer tt les autres couleurs")
 			else :
 				for i in range (len(Roles_User_Couleur)):
-					print("len role user couleur = ",len(Roles_User_Couleur))
-					print("i = ",i)
+					#print("len role user couleur = ",len(Roles_User_Couleur))
+					#print("i = ",i)
 					roleDel = discord.utils.get(ctx.message.server.roles, name=Roles_User_Couleur[i])
 					await bot.remove_roles(ctx.message.author, roleDel)
 					await asyncio.sleep(1)
-					print("Role del : ", roleDel)
+					#print("Role del : ", roleDel)
 				roleAdd = discord.utils.get(ctx.message.server.roles, name=Couleur)
 				await bot.add_roles(ctx.message.author, roleAdd)
 		else :
-			print("la couleur n'existe pas")
+			#print("la couleur n'existe pas")
 	
 
 @bot.command(pass_context=True)
