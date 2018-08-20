@@ -372,8 +372,8 @@ async def Couleur(ctx,Couleur):
 	else :
 		if str(Couleur) in CoulDispo :
 			if str(Couleur) in Roles_User_Couleur :
-				#print("vous avez deja cette couleur")
-				#print("Supprimer tt les autres couleurs")
+				print("vous avez deja cette couleur")
+				print("Supprimer tt les autres couleurs")
 			else :
 				for i in range (len(Roles_User_Couleur)):
 					#print("len role user couleur = ",len(Roles_User_Couleur))
