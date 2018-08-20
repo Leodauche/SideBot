@@ -367,7 +367,7 @@ async def Couleur(ctx,Couleur):
 			role = discord.utils.get(ctx.message.server.roles, name=Couleur)
 			await bot.add_roles(ctx.message.author, role)
 		else :
-			#print("la couleur n'existe pas")
+			print("la couleur n'existe pas")
 
 	else :
 		if str(Couleur) in CoulDispo :
@@ -385,7 +385,7 @@ async def Couleur(ctx,Couleur):
 				roleAdd = discord.utils.get(ctx.message.server.roles, name=Couleur)
 				await bot.add_roles(ctx.message.author, roleAdd)
 		else :
-			#print("la couleur n'existe pas")
+			print("la couleur n'existe pas")
 	
 
 @bot.command(pass_context=True)
