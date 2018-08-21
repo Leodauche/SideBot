@@ -262,7 +262,7 @@ async def vote(ctx, vote_type:int=None ,Vote_Message=None, emoji1 = "👍", emoj
 		await autodestruct(msg,ctx.message,ctx.message.author)
 
 @bot.command(pass_context=True)
-async def rp(ctx,arg):
+async def rp(ctx,arg=None):
 	role = discord.utils.get(ctx.message.server.roles, name='rp')
 	if arg == "join":
 		await bot.add_roles(ctx.message.author, role)
@@ -488,5 +488,5 @@ async def autodestruct(msgBot,msgUser,user):
 	await bot.delete_message(msgBot)
 	await bot.delete_message(msgUser)
 
-#bot.run(os.environ.get('BOT_TOKEN'))
-bot.run("NDE2MzIxMzI0ODczNjc4ODU4.Dl2iUg.4z4LnVUPJXxeuKLey4AgdcUTepQ")
+bot.run(os.environ.get('BOT_TOKEN'))
+
