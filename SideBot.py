@@ -261,6 +261,34 @@ async def vote(ctx, vote_type:int=None ,Vote_Message=None, emoji1 = "👍", emoj
 		msg = await bot.say("Vous n'avez pas la permission d'utiliser cette commande")
 		await autodestruct(msg,ctx.message,ctx.message.author)
 
+@bot.command(pass_context=True)
+async def rp(ctx,arg):
+	role = discord.utils.get(ctx.message.server.roles, name='rp')
+	if arg == "join":
+		await bot.add_roles(ctx.message.author, role)
+		msg = await bot.say("{}, vous avez maintenant acces au channel #rp ".format(ctx.message.author.name))
+		await autodestruct(msg,ctx.message,ctx.message.author)
+
+	elif arg == "leave":
+		await bot.remove_roles(ctx.message.author, role)
+		msg = await bot.say("{}, vous avez bien quité le channel #rp ".format(ctx.message.author.name))
+		await autodestruct(msg,ctx.message,ctx.message.author)
+
+	elif arg == "help":
+		embed=discord.Embed(title="Aide de la commande `!rp`", description="----------------------------------------------------------------------------", color=0x389c43)
+		embed.add_field(name="La commande `!rp` permet d’accéder au channel #rp", value="utilisation :", inline=False)
+		embed.add_field(name="!rp help", value="permet d'afficher l'aide", inline=False)
+		embed.add_field(name="!rp join", value="permet de rejoindre le channel #rp", inline=False)
+		embed.add_field(name="!rp leave", value="permet de quitter le channel #rp", inline=False)
+		await bot.say(embed=embed)
+
+
+	else :
+		await bot.say("Vous avez fait une erreur dans la commande faites `!rp help` pour afficher l'aide")
+		await autodestruct(msg,ctx.message,ctx.message.author)
+
+
+
 
 
 @bot.command(pass_context=True)
@@ -460,4 +488,5 @@ async def autodestruct(msgBot,msgUser,user):
 	await bot.delete_message(msgBot)
 	await bot.delete_message(msgUser)
 
-bot.run(os.environ.get('BOT_TOKEN'))
+#bot.run(os.environ.get('BOT_TOKEN'))
+bot.run("NDE2MzIxMzI0ODczNjc4ODU4.Dl2iUg.4z4LnVUPJXxeuKLey4AgdcUTepQ")
