@@ -14,7 +14,7 @@ Img_list = [ ("1.png" , [72,60,275,408]) , ("2.png" , [196,232,365,422]) , ("3.p
 def img_txt(arg,Texte):
 	if arg == "r" :
 		taille_liste = len(Img_list)
-		random_img = random.randint(0,taille_liste)
+		random_img = random.randint(0,taille_liste)-1
 		img_pathfile = "Donnes/Img/Write/{}".format(Img_list[random_img][0])
 		liste_coord = Img_list[random_img][1]
 

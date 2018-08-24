@@ -12,6 +12,7 @@ from discord.ext.commands import Bot
 from Var import Hug , Pat ,Nani
 from Couleurs import afficherCouleur , ListeCouleur
 from ImgEdit import img_txt, Img_list
+from Img import punch_img
 import Couleurs
 
 
@@ -163,6 +164,26 @@ async def write(ctx,arg,*, Texte=None):
 		os.remove(pathfile)
 	else:
 		await bot.say("nombre trop grand ou trop petit")
+
+
+
+@bot.command(pass_context=True)
+async def punch(ctx, user: discord.Member, user2:discord.Member = None ):
+	if user2 == None :
+		url1 = ctx.message.author.avatar_url
+		url2 = user.avatar_url
+
+	else :
+		url1 = user.avatar_url
+		url2 = user2.avatar_url
+
+
+	# url2_resize = url2.replace("?size=1024","")
+	# url1_resize = url1.replace("?size=1024","")
+	pathfile = punch_img(url1,url2)
+
+	await bot.send_file(ctx.message.channel,pathfile)
+	os.remove(pathfile)
 
 
 
@@ -488,5 +509,6 @@ async def autodestruct(msgBot,msgUser,user):
 	await bot.delete_message(msgBot)
 	await bot.delete_message(msgUser)
 
-bot.run(os.environ.get('BOT_TOKEN'))
+#bot.run(os.environ.get('BOT_TOKEN'))
+bot.run("NDE2MzIxMzI0ODczNjc4ODU4.Dl2iUg.4z4LnVUPJXxeuKLey4AgdcUTepQ")
 
