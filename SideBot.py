@@ -190,7 +190,6 @@ async def punch(ctx, user: discord.Member, user2:discord.Member = None ):
 @bot.command(pass_context=True)
 async def delete(ctx, nombre):
 	admin = discord.utils.get(ctx.message.server.roles, id='416319027191873538')
-	modo = discord.utils.get(ctx.message.server.roles, id='420960024437719050')
 	if (ctx.message.author.top_role == admin) or (ctx.message.author.top_role == modo) :
 		await bot.purge_from(ctx.message.channel, limit=int(nombre))
 	else :
@@ -314,9 +313,9 @@ async def rp(ctx,arg=None):
 
 @bot.command(pass_context=True)
 async def loveRem(ctx):
-	role = discord.utils.get(ctx.message.server.roles, id='418870888906227712')
+	role = discord.utils.get(ctx.message.server.roles, id='482613746766708767')
 	await bot.add_roles(ctx.message.author, role)
-	msg = await bot.say("Bravo {} , vous avez maintenant le role Rem's Lover ! <:megThumbsup:439481053820878878>".format(ctx.message.author.name))
+	msg = await bot.say("Bravo {} , vous avez maintenant le role Rem's Lover ! <:MeguDab:482623591087603723>".format(ctx.message.author.name))
 	await autodestruct(msg,ctx.message,ctx.message.author)
 
 
@@ -373,14 +372,9 @@ async def creerRoles(ctx):
 
 @bot.command(pass_context=True)
 async def affCoul(ctx):
-	admin = discord.utils.get(ctx.message.server.roles, id='416319027191873538')
-	if ctx.message.author.top_role == admin :
-		pathfile = afficherCouleur()
-		await bot.send_file(ctx.message.channel,pathfile)
-		os.remove(pathfile)
-	else :
-		msg = await bot.say("Vous ne pouvez pas utiliser cette commande")
-		await autodestruct(msg,ctx.message,ctx.message.author)
+	pathfile = afficherCouleur()
+	await bot.send_file(ctx.message.channel,pathfile)
+	os.remove(pathfile)
 
 
 @bot.command(pass_context=True)
