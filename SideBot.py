@@ -509,6 +509,5 @@ async def autodestruct(msgBot,msgUser,user):
 	await bot.delete_message(msgBot)
 	await bot.delete_message(msgUser)
 
-#bot.run(os.environ.get('BOT_TOKEN'))
-bot.run("NDE2MzIxMzI0ODczNjc4ODU4.Dl2iUg.4z4LnVUPJXxeuKLey4AgdcUTepQ")
+bot.run(os.environ.get('BOT_TOKEN'))
 
