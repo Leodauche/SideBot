@@ -27,9 +27,9 @@ async def on_ready():
 
 
 
-
-
-
+async def leo(ctx):
+	chan = discord.utils.get(ctx.message.server.channel, id='482620947086573570')
+	await bot.send_message(chan,"L'utilisateur Léo#6076 aussi connu sous le nom de Paul possède dorénavent 9001 points Kinji, il peut donc passer Bras droit divin !")
 
 
 
