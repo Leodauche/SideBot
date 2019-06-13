@@ -28,8 +28,7 @@ async def on_ready():
 
 @bot.command(pass_context=True)
 async def leo(ctx):
-	await bot.send_message(discord.Object(id='482620947086573570'),"L'utilisateur Léo#6076 aussi connu sous le nom de Paul possède dorénavent 9001 points Kinji, il peut donc passer Bras droit divin !")
-
+	await bot.change_nickname(ctx.message.author, "Léo")
 
 
 
