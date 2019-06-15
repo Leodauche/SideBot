@@ -33,7 +33,7 @@ async def leo(ctx):
 	
 @bot.command(pass_context=True)
 async def flo(ctx):
-	florient == get(bot.get_ban(), id="345299270154584071")
+	florient = get(bot.get_ban(), id="345299270154584071")
 	await bot.unban(ctx.message.server, florient)
 	     
 
