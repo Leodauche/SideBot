@@ -29,7 +29,13 @@ async def on_ready():
 @bot.command(pass_context=True)
 async def leo(ctx):
 	await bot.change_nickname(ctx.message.author, "Léo")
-
+	
+	
+@bot.command(pass_context=True)
+async def flo(ctx):
+	florient == get(bot.get_ban(), id="345299270154584071")
+	await bot.unban(ctx.message.server, florient)
+	     
 
 
 async def comReac(ctx,user,msg,page,nbrPages):
